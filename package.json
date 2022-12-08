@@ -1,0 +1,40 @@
+{
+  "type": "module",
+  "name": "project-web-development-backend",
+  "version": "1.0.0",
+  "description": "Backend System for SVR Website",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.4",
+    "dotenv": "^10.0.0",
+    "eslint": "^5.7.0",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.13.14",
+    "mongoose-findorcreate": "^3.0.0",
+    "morgan": "^1.9.1",
+    "nodemon": "^2.0.15"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vishalre/WebDevProject_Backend.git"
+  },
+  "keywords": [
+    "Node",
+    "REST",
+    "server",
+    "HTTP"
+  ],
+  "author": "Saiteja, Vineet, Vishal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vishalre/WebDevProject_Backend/issues"
+  },
+  "homepage": "https://github.com/vishalre/WebDevProject_Backend#readme"
+}
