@@ -23,7 +23,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vishalre/WebDevProject_Backend.git"
+    "url": "git+https://github.com/vishalre/FinalProject_Backend.git"
   },
   "keywords": [
     "Node",
@@ -34,7 +34,7 @@
   "author": "Saiteja, Vineet, Vishal",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/vishalre/WebDevProject_Backend/issues"
+    "url": "https://github.com/vishalre/FinalProject_Backend/issues"
   },
-  "homepage": "https://github.com/vishalre/WebDevProject_Backend#readme"
+  "homepage": "https://github.com/vishalre/FinalProject_Backend#readme"
 }
