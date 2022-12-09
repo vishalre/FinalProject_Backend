@@ -6,11 +6,14 @@ import {
 import authenticate from "../../Middleware/authenticate.js";
 import {findOneUserUdao} from "../../DAO/UserDao.js";
 
+const findAllCatalogsMethod = async (req, res) => {
+    const catalogs = await findAllCatalogs();
+    console.log('hello')
+    res.json(catalogs);
+  };
+
 const CatalogController = (app) => {
-    app.post("/api/catalogs", async (req, res) => {
-        const out = await findAllCatalogs();
-        res.json({ success: true, catalogs: out });
-    });
+    app.get("/api/catalogs", findAllCatalogsMethod);
 
     app.post("/api/catalogs/remove/:id", authenticate, async (req, res) => {
 

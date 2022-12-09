@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import AddressModel from "../Models/AddressModel.js";
 //for user creation
 const UserRegistration = (req, res, next) => {
-  // 10 here is salt number its number of cycles of encryption(salt makes hash unpredictable)
+  // 10 here is salt nuber its number of cycles of encryption(salt makes hash unpredictable)
   bcrypt.hash(req.body.password, 10, async (err, encryptedPassword) => {
     if (err) {
       res.json({ success: false, message: { user: {}, err } });
