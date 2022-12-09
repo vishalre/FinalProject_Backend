@@ -8,7 +8,7 @@ import AddressController from "./Controllers/Address/AddressController.js";
 import ProductsController from "./Controllers/Products/ProductsController.js";
 import LikesController from "./Controllers/Likes/LikesController.js";
 import ReviewsController from "./Controllers/Reviews/ReviewsController.js";
-
+import CatalogController from "./Controllers/Catalog/CatalogController.js"
 const app = express();
 const port = 4300;
 app.set("port", port);
@@ -21,6 +21,7 @@ AddressController(app);
 ProductsController(app);
 LikesController(app);
 ReviewsController(app);
+CatalogController(app);
 app.use(express.static("static"));
 app.use(morgan("dev"));
 app.use((req, res) => {
