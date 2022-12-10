@@ -8,7 +8,6 @@ import {findOneUserUdao} from "../../DAO/UserDao.js";
 
 const findAllCatalogsMethod = async (req, res) => {
     const catalogs = await findAllCatalogs();
-    console.log('hello')
     res.json(catalogs);
   };
 
@@ -28,12 +27,13 @@ const CatalogController = (app) => {
 
     app.post("/api/catalogs/create", authenticate, async (req, res) => {
         const user = await findOneUserUdao(req.body.id);
+        console.log(user);
         if (user.type !== "Dealer") {
-            res.json({ success: false, products: {} });
+            res.json({ success: false});
             return;
         }
-        const out = await createCatalog(req.body.catalog);
-        res.json({ success: true, products: out });
+        const out = await createCatalog({catalogName:req.body.catalogName});
+        res.json(out);
     });
 
 
