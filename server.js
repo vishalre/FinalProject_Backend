@@ -9,6 +9,7 @@ import ProductsController from "./Controllers/Products/ProductsController.js";
 import LikesController from "./Controllers/Likes/LikesController.js";
 import ReviewsController from "./Controllers/Reviews/ReviewsController.js";
 import CatalogController from "./Controllers/Catalog/CatalogController.js"
+import CartController from "./Controllers/Cart/CartController.js"
 const app = express();
 const port = 4300;
 app.set("port", port);
@@ -22,6 +23,7 @@ ProductsController(app);
 LikesController(app);
 ReviewsController(app);
 CatalogController(app);
+CartController(app);
 app.use(express.static("static"));
 app.use(morgan("dev"));
 app.use((req, res) => {
