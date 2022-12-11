@@ -14,21 +14,19 @@ const findAllCatalogsMethod = async (req, res) => {
 const CatalogController = (app) => {
     app.get("/api/catalogs", findAllCatalogsMethod);
 
-    app.post("/api/catalogs/remove/:id", authenticate, async (req, res) => {
-
+    app.post("/api/catalogs/remove", authenticate, async (req, res) => {
         const user = await findOneUserUdao(req.body.id);
         if (user.type !== "Admin") {
-            res.json({ success: false, products: {} });
+            res.json({ success: false});
             return;
         }
-        const out = await deleteCatalog(req.params["id"])
-        res.json({ success: true, remove: {} });
+        const out = await deleteCatalog(req.body.catalogId)
+        res.json({success:true, message: "catalog removed" });
     });
 
     app.post("/api/catalogs/create", authenticate, async (req, res) => {
         const user = await findOneUserUdao(req.body.id);
-        console.log(user);
-        if (user.type !== "Dealer") {
+        if (user.type !== "Dealer" && user.type!=='Admin') {
             res.json({ success: false});
             return;
         }
