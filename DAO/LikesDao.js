@@ -7,3 +7,6 @@ export const findOneLikeLdao = (uid, pid) =>
   LikesModel.findOne({ users: uid, product: pid });
 
 export const findAllLikes = () => LikesModel.find().populate("users").populate("product").exec();
+
+export const findLikesByUser = (uid) => LikesModel.find({ users: uid })
+    .populate("users").populate("product").exec();

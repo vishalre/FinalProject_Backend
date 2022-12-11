@@ -1,13 +1,7 @@
 import UserModel from "../Models/UserModel.js";
 export const findAllUsersUdao = () => UserModel.find();
 export const findOneUserUdao = async (uid) =>
-  await UserModel.findOne({ _id: uid })
-    .populate("address")
-    .populate("paymentInfo")
-    .populate({ path: "likes", populate: "product" })
-    .populate("cart")
-    .populate({ path: "reviews", populate: "product" })
-    .exec();
+  await UserModel.findOne({ _id: uid });
 export const createUserUdao = (User) => UserModel.create(User);
 export const deleteUserUdao = (uid) => UserModel.deleteOne({ _id: uid });
 export const updateUserUdao = (uid, User) =>

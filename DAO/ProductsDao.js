@@ -28,3 +28,6 @@ export const removeReviewPdao = (aid, rid) =>
 
 export const findProductByNamePdao = (name) =>
   ProductsModel.find({ name: { $regex: name, $options: "i" } });
+
+export const findProductByASINdao = (productId) =>
+  ProductsModel.findOne({ asin: productId });

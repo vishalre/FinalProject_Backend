@@ -26,10 +26,11 @@ const ProductsController = (app) => {
 
   app.post("/api/add-product", authenticate, async (req, res) => {
     const user = await findOneUserUdao(req.body.id);
-    if (user.type !== "Dealer") {
+    // TODO
+    /*if (user.type !== "Dealer") {
       res.json({ success: false, products: {} });
       return;
-    }
+    }*/
     const out = await createProductPdao(req.body.product);
     res.json({ success: true, products: out });
   });

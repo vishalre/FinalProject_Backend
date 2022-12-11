@@ -29,7 +29,7 @@ import {
   createProductPdao,
   updateLikePdao,
   removeLikePdao,
-  findOneProductPdao,
+  findOneProductPdao, findProductByASINdao,
 } from "../../DAO/ProductsDao.js";
 import {
   CreateReviewRdao,
@@ -39,10 +39,11 @@ import {
 import {
   createLikeLdao,
   removeLikeLdao,
-  findOneLikeLdao,
+  findOneLikeLdao, findLikesByUser,
 } from "../../DAO/LikesDao.js";
 import auth from "../../Middleware/authController.js";
 import authenticate from "../../Middleware/authenticate.js";
+import mongoose from "mongoose";
 
 const uniqueEmailCheck = (req, res) => {
   users.find({ email: req.body.email }, (err, user) => {
@@ -56,6 +57,7 @@ const uniqueEmailCheck = (req, res) => {
 };
 
 const UsersController = (app) => {
+
   //Login method defined in AuthCOntroller checks if the provided UserName and Password match
   app.post("/api/login", auth.login);
   //checks if a given username is already in the DataBase
@@ -218,7 +220,12 @@ const UsersController = (app) => {
       res.json({ success: false, message: "user Not found" });
       return;
     }
-    const data = await createLikeLdao(req.body.id, req.body.productId);
+    let productObjectId = req.body.productId;
+    if (!mongoose.Types.ObjectId.isValid(productObjectId)) {
+      // Fetch object id
+      productObjectId = await findProductByASINdao(req.body.productId);
+    }
+    const data = await createLikeLdao(req.body.id, productObjectId._id);
     await addLikeUdao(req.body.id, data._id);
     await updateLikePdao(data.product, data._id);
     res.json({ success: true, message: "Like created" });
@@ -231,8 +238,13 @@ const UsersController = (app) => {
       res.json({ success: false, message: "user Not found" });
       return;
     }
-    const data = await findOneLikeLdao(req.body.id, req.body.productId);
-    await removeLikeLdao(req.body.id, req.body.productId);
+    let productObjectId = req.body.productId;
+    if (!mongoose.Types.ObjectId.isValid(productObjectId)) {
+      // Fetch object id
+      productObjectId = await findProductByASINdao(req.body.productId);
+    }
+    const data = await findOneLikeLdao(req.body.id, productObjectId._id);
+    await removeLikeLdao(req.body.id, productObjectId._id);
     await removeLikeUdao(req.body.id, data._id);
     await removeLikePdao(data.product, data._id);
     res.json({ success: true, message: "Like Removed" });
@@ -245,7 +257,13 @@ const UsersController = (app) => {
       res.json({ success: false, message: "user Not found" });
       return;
     }
-    const data = await findOneProductPdao(req.body.productId);
+    let productObjectId = req.body.productId;
+    if (!mongoose.Types.ObjectId.isValid(productObjectId)) {
+      // Fetch object id
+      res.json({ success: false, message: "Product not present" });
+      return;
+    }
+    const data = await findOneProductPdao(productObjectId);
     const out = data.likes.filter((e) => e.users == req.body.id);
     res.json({ success: true, liked: out.length > 0 });
   });
