@@ -2,7 +2,8 @@ import {
     findCartOfUser,
     deleteFromCart,
     addToCart,
-    updateCart
+    updateCart,
+    addToOrder, findOrderByUser
 } from "../../DAO/CartDao.js";
 
 import authenticate from "../../Middleware/authenticate.js";
@@ -34,6 +35,16 @@ const CatalogController = (app) => {
         const user = await findOneUserUdao(req.body.id);
         const out = await updateCart(req.body.id, req.body.cart);
         res.json({ success: true, products: out });
+    });
+
+    app.post("/api/order/add", async (req, res) =>{
+        const out = await addToOrder(req.body.order);
+        res.json({ success: true, order: out });
+    });
+
+    app.get("/api/orders/:uid", async (req, res) =>{
+        const out = await findOrderByUser(req.params["uid"]);
+        res.json({ success: true, order: out });
     });
 
 };

@@ -7,6 +7,11 @@ const schema = mongoose.Schema({
          type: mongoose.Schema.Types.ObjectId,
          ref: "PaymentDetails",
          required: true
-     }});
+     },
+     date: {
+         type:String,
+         required: true
+     }
+     });
 
 export default mongoose.model("Orders", schema);
