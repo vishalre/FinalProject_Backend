@@ -21,7 +21,7 @@ import {
   removePaymentUdao,
   removeReviewUdao,
   addLikeUdao,
-  removeLikeUdao,
+  removeLikeUdao, findUserProfileUdao,
 } from "../../DAO/UserDao.js";
 import {
   updateReviewPdao,
@@ -92,7 +92,7 @@ const UsersController = (app) => {
 
   //extracts the user by Id for lookingup users when not logged in
   app.get("/api/users/:id", async (req, res) => {
-    const user = await findOneUserUdao(req.params["id"]);
+    const user = await findUserProfileUdao(req.params["id"]);
     if (user == null) {
       res.json({ error: "No User Found with this ID", user });
       return;
