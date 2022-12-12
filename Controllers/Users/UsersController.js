@@ -214,10 +214,19 @@ const UsersController = (app) => {
 
   //Reviews Remove  Backend
   app.post("/api/remove-review", authenticate, async (req, res) => {
-    const data = await findOneReviewsRdao(req.body.id);
-    await removeReviewUdao(data.user, req.body.id);
-    await removeReviewPdao(data.product, req.body.id);
-    await deleteReviewsRdao(req.body.id);
+    const user = await findOneUserUdao(req.body.id);
+    if (user === null) {
+      res.json({ success: false, message: "user Not found" });
+      return;
+    }
+    const data = await findOneReviewsRdao(user._id, req.body.rid);
+    if (data === null){
+      res.json({ success: false, message: "No review found for the user" });
+      return;
+    }
+    await removeReviewUdao(data.user, req.body.rid);
+    await removeReviewPdao(data.product, req.body.rid);
+    await deleteReviewsRdao(req.body.rid);
     await res.json({ success: true, message: "record removed" });
   });
 
