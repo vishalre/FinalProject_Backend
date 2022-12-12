@@ -5,7 +5,7 @@ const schema = mongoose.Schema({
   imageUrl: { type: String, required: true },
   price: { type: String, required: true },
   manufacturer: { type: String },
-  asin: { type: String, unique: true },
+  asin: { type: String},
   country: { type: String },
   originalPrice: { type: Number, min: 0 },
   discount: { type: Number, min: 0 },
