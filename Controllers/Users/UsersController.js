@@ -193,12 +193,20 @@ const UsersController = (app) => {
       res.json({ success: false, message: "user Not found" });
       return;
     }
-    const data = await CreateReviewRdao({
-      review: req.body.review,
-      rating: req.body.rating,
-      user: req.body.id,
-      product: req.body.pid,
-    });
+    let productObjectId = req.body.pid;
+    if (!mongoose.Types.ObjectId.isValid(productObjectId)) {
+      // Fetch object id
+      productObjectId = await findProductByASINdao(req.body.pid);
+      productObjectId = productObjectId._id;
+    }
+    if (productObjectId == null){
+      res.json({ success: false, message: "No product found" });
+      return;
+    }
+    const data = await CreateReviewRdao(req.body.review,
+                                        req.body.rating,
+                                        req.body.id,
+                                        productObjectId);
     await addReviewUdao(req.body.id, data._id);
     await updateReviewPdao(data.product, data._id);
     res.json({ success: true, message: "record created" });
@@ -224,8 +232,13 @@ const UsersController = (app) => {
     if (!mongoose.Types.ObjectId.isValid(productObjectId)) {
       // Fetch object id
       productObjectId = await findProductByASINdao(req.body.productId);
+      productObjectId = productObjectId._id;
     }
-    const data = await createLikeLdao(req.body.id, productObjectId._id);
+    if (productObjectId == null){
+      res.json({ success: false, message: "No product found" });
+      return;
+    }
+    const data = await createLikeLdao(req.body.id, productObjectId);
     await addLikeUdao(req.body.id, data._id);
     await updateLikePdao(data.product, data._id);
     res.json({ success: true, message: "Like created" });
@@ -242,9 +255,10 @@ const UsersController = (app) => {
     if (!mongoose.Types.ObjectId.isValid(productObjectId)) {
       // Fetch object id
       productObjectId = await findProductByASINdao(req.body.productId);
+      productObjectId = productObjectId._id;
     }
-    const data = await findOneLikeLdao(req.body.id, productObjectId._id);
-    await removeLikeLdao(req.body.id, productObjectId._id);
+    const data = await findOneLikeLdao(req.body.id, productObjectId);
+    await removeLikeLdao(req.body.id, productObjectId);
     await removeLikeUdao(req.body.id, data._id);
     await removeLikePdao(data.product, data._id);
     res.json({ success: true, message: "Like Removed" });

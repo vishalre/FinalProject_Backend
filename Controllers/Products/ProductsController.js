@@ -3,14 +3,21 @@ import {
   createProductPdao,
   deleteProductPdao,
   findOneProductPdao,
-  findProductByNamePdao,
+  findProductByNamePdao, findProductByASINdao,
 } from "../../DAO/ProductsDao.js";
 import { findOneUserUdao } from "../../DAO/UserDao.js";
 import authenticate from "../../Middleware/authenticate.js";
+import mongoose from "mongoose";
 
 const ProductsController = (app) => {
   app.post("/api/product", async (req, res) => {
-    const out = await findOneProductPdao(req.body.id);
+    let productObjectId = req.body.id;
+    if (!mongoose.Types.ObjectId.isValid(productObjectId)) {
+      // Fetch object id
+      productObjectId = await findProductByASINdao(req.body.id);
+      productObjectId = productObjectId._id;
+    }
+    const out = await findOneProductPdao(productObjectId);
     res.json({ success: true, products: out });
   });
 
