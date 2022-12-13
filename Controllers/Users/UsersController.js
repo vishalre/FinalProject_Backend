@@ -21,7 +21,7 @@ import {
   removePaymentUdao,
   removeReviewUdao,
   addLikeUdao,
-  removeLikeUdao,
+  removeLikeUdao, findUserProfileUdao,
 } from "../../DAO/UserDao.js";
 import {
   updateReviewPdao,
@@ -92,7 +92,7 @@ const UsersController = (app) => {
 
   //extracts the user by Id for lookingup users when not logged in
   app.get("/api/users/:id", async (req, res) => {
-    const user = await findOneUserUdao(req.params["id"]);
+    const user = await findUserProfileUdao(req.params["id"]);
     if (user == null) {
       res.json({ error: "No User Found with this ID", user });
       return;
@@ -214,10 +214,19 @@ const UsersController = (app) => {
 
   //Reviews Remove  Backend
   app.post("/api/remove-review", authenticate, async (req, res) => {
-    const data = await findOneReviewsRdao(req.body.id);
-    await removeReviewUdao(data.user, req.body.id);
-    await removeReviewPdao(data.product, req.body.id);
-    await deleteReviewsRdao(req.body.id);
+    const user = await findOneUserUdao(req.body.id);
+    if (user === null) {
+      res.json({ success: false, message: "user Not found" });
+      return;
+    }
+    const data = await findOneReviewsRdao(user._id, req.body.rid);
+    if (data === null){
+      res.json({ success: false, message: "No review found for the user" });
+      return;
+    }
+    await removeReviewUdao(data.user, req.body.rid);
+    await removeReviewPdao(data.product, req.body.rid);
+    await deleteReviewsRdao(req.body.rid);
     await res.json({ success: true, message: "record removed" });
   });
 

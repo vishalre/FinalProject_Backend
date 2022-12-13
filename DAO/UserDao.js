@@ -8,6 +8,8 @@ export const findOneUserUdao = async (uid) =>
   .populate("cart")
   .populate({ path: "reviews", populate: "product" })
   .exec();
+export const findUserProfileUdao = async (uid) =>
+  await UserModel.findOne({ _id: uid }).populate("reviews").exec();
 export const createUserUdao = (User) => UserModel.create(User);
 export const deleteUserUdao = (uid) => UserModel.deleteOne({ _id: uid });
 export const updateUserUdao = (uid, User) =>
