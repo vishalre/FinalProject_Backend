@@ -18,10 +18,10 @@ const findUserCart = async (req, res) => {
 const CatalogController = (app) => {
     app.get("/api/cart/:uid", findUserCart);
 
-    app.post("/api/cart/remove/:id", async (req, res) => {
-
-        const out = await deleteFromCart(req.body.id);
-        res.json({ success: true, remove: {} });
+    app.post("/api/cart/remove/", async (req, res) => {
+        console.log(JSON.stringify(req.body.pid))
+        const out = await deleteFromCart(req.body.pid);
+        res.json({ success: true});
     });
 
     app.post("/api/cart/add", async (req, res) => {
